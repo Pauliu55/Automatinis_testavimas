@@ -18,8 +18,13 @@ namespace Automatinis_Testavimas.page
         private IWebElement _Button => Driver.FindElement(By.Id("check1"));
 
         public Check_box(IWebDriver webdriver) : base(webdriver)
+        {}
+
+        public Check_box NavigateToDefaultPage()
         {
-            Driver.Url = PageAddress;
+            if (Driver.Url != PageAddress)
+                Driver.Url = PageAddress;
+            return this;
         }
         public Check_box CheckSingleCheckbox()
         {
@@ -56,7 +61,7 @@ namespace Automatinis_Testavimas.page
         {
             // GetWait().Until(ExpectedConditions.TextToBePresentInElement(_Button, "Uncheck All"));
             // DefaultWait.Until(ExpectedConditions.TextToBePresentInElementValue(_Button, "Uncheck All"));
-            //Assert.IsTrue(Button.GetAttribute("value").Equals(value), "Second is wrong");
+            Assert.IsTrue(_Button.GetAttribute("value").Equals(value), "Second is wrong");
             return this;
         }
 
