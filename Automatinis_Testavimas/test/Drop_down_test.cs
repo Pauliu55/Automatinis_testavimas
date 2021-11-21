@@ -10,45 +10,33 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace Automatinis_Testavimas.test
 {
-    class Drop_down_test
+    public class Drop_down_test : Base_test
     {
-        private static Drop_down _page;
-
-        [OneTimeSetUp]
-        public static void Set_up()
-        {
-            IWebDriver driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            driver.Manage().Window.Maximize();
-            _page = new Drop_down(driver);
-        }
-
-        [OneTimeTearDown]
-
-        public static void Tear_down()
-        {
-            //_page.Close_browser();
-        }
 
         [Test]
-        public void Test_multi_drop_down_first_selected_2_states()
+        public void Test_drop_down()
         {
-            _page.Select_from_multi_drop_down_by_value("Florida", "Texas")
-                .Click_first_selected_button()
-                .Verify_result_first_selected("Florida");
+            _dropDownPage.Navigate_to_default_page()
+                .Select_from_drop_down_by_text("Friday")
+                .Verify_result("Friday");
         }
 
-        [Test]
-        public void Test_multi_drop_down_all_selected_2_states()
+        [TestCase("Ohio", "Texas", TestName = "Pasirenkame 2 reiksmes ir patikriname")]
+        [TestCase("Washington", "Ohio", "Texas", TestName = "Pasirenkame 3 reiksmes ir patikriname")]
+        public void Test_multiple_drop_down(params string[] selected_elements)
         {
-            _page.Select_from_multi_drop_down_by_value("Florida", "Texas")
-                .Click_all_selected_button()
-                .Verify_result_all_selected("Florida", "Texas");
+            _dropDownPage.Navigate_to_default_page()
+                .Select_from_multiple_drop_down_and_click_first_button(selected_elements.ToList())
+                .Check_first_state(selected_elements[0]);
         }
 
-        public void Test_multi_drop_down_list()
+        [TestCase("New Jersey", "California", TestName = "Pasirenkame 2 reiksmes ir patikriname")]
+        [TestCase("Washington", "Ohio", "Texas", "Florida", TestName = "Pasirenkame 4 reiksmes ir patikriname")]
+        public void Test_multiple_drop_down_get_all(params string[] selected_elements)
         {
-
+            _dropDownPage.Navigate_to_default_page()
+                .Select_from_multiple_drop_down_by_value(selected_elements.ToList())
+                .Click_get_all_button();
         }
     }
 }

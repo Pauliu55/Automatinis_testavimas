@@ -3,59 +3,37 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Automatinis_Testavimas.test
 {
-    class Check_box_test
+    public class Check_box_test : Base_test
     {
-        class CheckboxDemoTest
+
+
+        [Order(3)]
+        [Test]
+        public void TestSingleCheckBox()
         {
-            private static Check_box _page;
-
-            [OneTimeSetUp]
-            public static void SetUp()
-            {
-                IWebDriver driver = new ChromeDriver();
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                driver.Manage().Window.Maximize();
-                _page = new Check_box(driver);
-            }
-
-            [OneTimeTearDown]
-
-            public static void TearDown()
-            {
-                _page.Close_browser();
-            }
-
-            [Order(3)]
-            [Test]
-            public void TestSingleCheckBox()
-            {
-                _page.CheckSingleCheckbox()
-                    .CheckResult();
-            }
-
-            [Order(1)]
-            [Test]
-            public void TestCheckAllCheckboxes()
-            {
-                _page.CheckAllCheckboxes()
-                    .CheckButtonValue("Uncheck All");
-            }
-
-            [Order(2)]
-            [Test]
-            public void TestUncheckAllCheckboxes()
-            {
-                _page.CheckAllCheckboxes()
-                    .ClickButton()
-                    .VerifyThatAllCheckboxesAreUnchecked();
-            }
+            _check_box_demo_page.NavigateToDefaultPage()
+                .CheckSingleCheckbox()
+                .CheckResult();
+        }
+        [Order(1)]
+        [Test]
+        public void TestCheckAllCheckboxes()
+        {
+            _check_box_demo_page.NavigateToDefaultPage()
+                .CheckAllCheckboxes()
+                .CheckButtonValue("Uncheck All");
+        }
+        [Order(2)]
+        [Test]
+        public void TestUncheckAllCheckboxes()
+        {
+            _check_box_demo_page.NavigateToDefaultPage()
+                .CheckAllCheckboxes()
+                .ClickButton()
+                .VerifyThatAllCheckboxesAreUnchecked();
         }
     }
 }
